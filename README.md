@@ -259,11 +259,28 @@ analisis.py
 
 ### modelos.py
 
-Contiene las clases principales del proyecto.
+Contiene las **clases** principales del proyecto.
+
+```modelos.py
+├─ Instancia
+├─ ModeloBase
+├─ ModeloUmbral
+├─ClasificadorKNN
+└─Modelo sklearn
+```
 
 #### Instancia
 
 Representa una alerta individual.
+
+##### CHECKS
+✅ Instancia encapsula las features (intentos_login, ips_distintas) y la etiqueta real (alerta).
+✅ es_sospechosa() devuelve un booleano basado en la etiqueta real.
+✅ ModeloUmbral almacena los parámetros del modelo (umbral_intentos, umbral_ips).
+✅ predecir(instancia) utiliza las features de la instancia y los umbrales del modelo.
+✅ Separación clara entre:
+- realidad: instancia.es_sospechosa()
+- predicción: modelo.predecir(instancia)
 
 #### ModeloBase
 
@@ -277,23 +294,25 @@ Se utiliza como modelo baseline para comparar el desempeño del algoritmo KNN.
 
 #### ClasificadorKNN
 
-Implementación manual del algoritmo K-Nearest Neighbors utilizando distancia Manhattan. Calcula la distancia Manhattan entre alertas y selecciona los K vecinos más cercanos para realizar la clasificación.
-
-```modelos.py
-├─ Instancia
-├─ ModeloBase
-├─ ModeloUmbral
-└─ ClasificadorKNN
+Implementación manual del algoritmo K-Nearest Neighbors (KNN) utilizando distancia euclideana y Manhattan. Calcula la distancia entre instancias, selecciona los K vecinos más cercanos y determina la clase mediante votación por mayoría.
+```
+ModeloKNN
+├── __init__()
+│   ├── valida k
+│   ├── valida métrica
+│   └── inicializa atributos
+├── entrenar()
+│   └── almacena instancias de entrenamiento
+├── _calcular_distancia()
+│   ├── euclideana
+│   └── manhattan
+├── _obtener_vecinos()
+│   └── selecciona los k más cercanos
+└── predecir()
+    └── votación por mayoría
 ```
 
-#### CHECKS (BORRAR?)
-✅ Instancia encapsula las features (intentos_login, ips_distintas) y la etiqueta real (alerta).
-✅ es_sospechosa() devuelve un booleano basado en la etiqueta real.
-✅ ModeloUmbral almacena los parámetros del modelo (umbral_intentos, umbral_ips).
-✅ predecir(instancia) utiliza las features de la instancia y los umbrales del modelo.
-✅ Separación clara entre:
-- realidad: instancia.es_sospechosa()
-- predicción: modelo.predecir(instancia)
+### Modelo KNeighborsClassifier de scikit-learn
 
 ### main.py
 
@@ -309,6 +328,7 @@ Responsabilidades:
 6. Medir tiempos de ejecución.
 
 ---
+## Distancia euclideana
 
 ## Distancia Manhattan
 
